@@ -40,7 +40,7 @@ const checkIron = async () => {
 
       console.log('Checking for availability');
 
-      if (soldOutButton) {
+      if (!soldOutButton) {
         await sendNotification('Ironman Cartagena is open for registration');
         isAvailable = true;
       } else {
