@@ -1,0 +1,16 @@
+{
+  "name": "ironman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ironScript.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^20.7.4",
+    "twilio": "^4.13.0"
+  }
+}
