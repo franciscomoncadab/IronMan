@@ -5,9 +5,10 @@ require('dotenv').config();
 const accountSID = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
 const phoneNumber = process.env.PHONE_NUMBER;
-const notificationNumber = '+573116308815'; // Change this to your phone number
+const notificationNumber1 = process.env.NOTIFICATION_NUMBER_1;
+const notificationNumber2 = process.env.NOTIFICATION_NUMBER_2;
 
-const sendNotification = async (message) => {
+const sendNotification = async (message, notificationNumber) => {
   const client = twilio(accountSID, authToken);
 
   try {
@@ -16,7 +17,28 @@ const sendNotification = async (message) => {
       from: phoneNumber,
       to: notificationNumber
     });
-    console.log('Message sent');
+    console.log(`Message sent to ${notificationNumber}`);
+  } catch (error) {
+    console.log('Something went wrong', error);
+  }
+};
+
+const sendNotificationCall = async (notificationNumber) => {
+  const client = twilio(accountSID, authToken);
+
+  try {
+    await client.calls.create({
+      twiml: '<Response><Say>Ahoy, Ironman Cartagena is open for registration!</Say></Response>',
+      to: notificationNumber,
+      from: phoneNumber
+    }, function(err, call) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(call.sid);
+      }
+    });
+    console.log(`Call sent to ${notificationNumber}`);
   } catch (error) {
     console.log('Something went wrong', error);
   }
@@ -37,11 +59,15 @@ const checkIron = async () => {
 
     while (!isAvailable) {
       const soldOutButton = await page.$('#pageEl_463149744');
+      const registerButton = await page.$('#yieldContent > div.race-page-top > div.race-band.active > div.linkElement > h4 > a');
 
       console.log('Checking for availability');
 
-      if (!soldOutButton) {
-        await sendNotification('Ironman Cartagena is open for registration');
+      if (!soldOutButton || !registerButton) {
+        await sendNotification('Ironman Cartagena is open for registration', notificationNumber1);
+        // await sendNotificationCall(notificationNumber1);
+        // await sendNotification('Ironman Cartagena is open for registration', notificationNumber2);
+        await sendNotificationCall(notificationNumber2);
         isAvailable = true;
       } else {
         // await page.waitForTimeout(5000); // Deprecated
