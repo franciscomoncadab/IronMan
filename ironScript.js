@@ -46,12 +46,12 @@ const checkIron = async () => {
       } else {
         // await page.waitForTimeout(5000); // Deprecated
         await awaitReload;
+        console.log('Checking again in 20 seconds');
         await page.reload();
       }
-
-      console.log('Checking again in 20 seconds');
     };
 
+    console.log('Contratulations, you can register now');
     await browser.close();
   } catch (error) {
     console.error('Something went wrong',error);
