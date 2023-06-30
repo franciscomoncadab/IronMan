@@ -58,12 +58,15 @@ const checkIron = async () => {
     await page.goto('https://www.ironman.com/im703-cartagena-register');
 
     while (!isAvailable) {
-      const soldOutButton = await page.$('#pageEl_463149744');
-      const registerButton = await page.$('#yieldContent > div.race-page-top > div.race-band.active > div.linkElement > h4 > a');
-
+      const selector = 'Sold Out';
+      const soldOutLink = await page.evaluate((text) => {
+        const links = Array.from(document.querySelectorAll('a'));
+        return links.some(link => link.textContent.includes(text));
+      }, selector);
+      console.log(soldOutLink);
       console.log('Checking for availability');
 
-      if (!soldOutButton || !registerButton) {
+      if (!soldOutLink) {
         await sendNotification('Ironman Cartagena is open for registration', notificationNumber1);
         await sendNotificationCall(notificationNumber2);
         isAvailable = true;
