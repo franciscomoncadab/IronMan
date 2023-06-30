@@ -1,10 +1,10 @@
 const puppeter = require('puppeteer');
 const twilio = require('twilio');
 
-const accountSID = 'AC8039ccbddcdb40c3e5c4cb4fc09176b8';
-const authToken = 'c3a9932b6dc8e43a6154e33ba675be4e';
-const phoneNumber = '+15419098589';
-const notificationNumber = '+573116308815';
+const accountSID = process.env.accountSID;
+const authToken = process.env.authToken;
+const phoneNumber = process.env.phoneNumber;
+const notificationNumber = '+573116308815'; // Change this to your phone number
 
 const sendNotification = async (message) => {
   const client = twilio(accountSID, authToken);
@@ -22,8 +22,8 @@ const sendNotification = async (message) => {
 };
 
 const awaitReload = new Promise((resolve) => {
-  setTimeout(resolve, 5000);
-  console.log('Waiting for 5 seconds');
+  setTimeout(resolve, 20000);
+  console.log('Waiting for 20 seconds');
   });
 
 const checkIron = async () => {
@@ -48,7 +48,7 @@ const checkIron = async () => {
         await page.reload();
       }
 
-      console.log('Checking again in 5 seconds');
+      console.log('Checking again in 20 seconds');
     };
 
     await browser.close();
