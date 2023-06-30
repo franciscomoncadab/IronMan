@@ -45,8 +45,8 @@ const sendNotificationCall = async (notificationNumber) => {
 };
 
 const awaitReload = new Promise((resolve) => {
-  setTimeout(resolve, 20000);
-  console.log('Waiting for 20 seconds');
+  setTimeout(resolve, 50000);
+  console.log('Waiting for 50 seconds');
   });
 
 const checkIron = async () => {
@@ -65,14 +65,14 @@ const checkIron = async () => {
 
       if (!soldOutButton || !registerButton) {
         await sendNotification('Ironman Cartagena is open for registration', notificationNumber1);
-        // await sendNotificationCall(notificationNumber1);
-        // await sendNotification('Ironman Cartagena is open for registration', notificationNumber2);
         await sendNotificationCall(notificationNumber2);
         isAvailable = true;
       } else {
-        // await page.waitForTimeout(5000); // Deprecated
-        await awaitReload;
-        console.log('Checking again in 20 seconds');
+        await new Promise((resolve) => {
+          setTimeout(resolve, 50000);
+          console.log('Waiting for 50 seconds');
+        });
+        console.log('Checking again in 50 seconds');
         await page.reload();
       }
     };
