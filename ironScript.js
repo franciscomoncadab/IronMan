@@ -1,9 +1,10 @@
 const puppeter = require('puppeteer');
 const twilio = require('twilio');
+require('dotenv').config();
 
-const accountSID = process.env.accountSID;
-const authToken = process.env.authToken;
-const phoneNumber = process.env.phoneNumber;
+const accountSID = process.env.ACCOUNT_SID;
+const authToken = process.env.AUTH_TOKEN;
+const phoneNumber = process.env.PHONE_NUMBER;
 const notificationNumber = '+573116308815'; // Change this to your phone number
 
 const sendNotification = async (message) => {
@@ -39,7 +40,7 @@ const checkIron = async () => {
 
       console.log('Checking for availability');
 
-      if (!soldOutButton) {
+      if (soldOutButton) {
         await sendNotification('Ironman Cartagena is open for registration');
         isAvailable = true;
       } else {
